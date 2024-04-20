@@ -1,0 +1,4 @@
+services:
+    App\Manager\ClientManager:
+        public: true
+        class: App\Manager\ClientManager

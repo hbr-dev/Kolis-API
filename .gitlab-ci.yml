@@ -1,0 +1,28 @@
+image: webdevops/php-nginx
+
+stages:
+  - deploy_dev
+  
+
+before_script:
+  - echo "ce script permet de le deployment continue de l'application api"
+
+after_script:
+  - echo "script terminer vous ète a jour rendu vous sur le site devapi.kolis.fr"
+
+deploy_dev:
+  image: nginx
+  stage: deploy_dev
+  only:
+    - develop
+  script:
+    - apt update
+    - apt install -y sshpass
+    - echo "ssh pass installer"
+    - echo "ce deploiement permet de connecter le serveur de developpement afin de lancer un script"
+    - export SSHPASS="$PW_SERV_28"
+    - sshpass
+    - sshpass -e ssh -p 902 -o StrictHostKeyChecking=no sshuser@${ip_machine_dev} /home/sshuser/kolis/deploy/update-sf.sh api kolis_api
+    - echo "after ssh cmd"
+    - ls -a
+    

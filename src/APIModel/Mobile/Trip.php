@@ -14,14 +14,14 @@ class Trip extends CommonParameterBag
         max: 300,
         maxMessage: 'Pick-up location so long(max 300 characters)'
     )]
-    public string $pickUPLocation;
+    public $pickUPLocation;
 
     #[Assert\NotBlank]
     #[Assert\Length(
         max: 300,
         maxMessage: 'Delivery location so long(max 300 characters)'
     )]
-    public string $deliveryLocation;
+    public $deliveryLocation;
 
     #[Assert\NotBlank]
     public $date;

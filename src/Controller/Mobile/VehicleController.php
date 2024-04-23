@@ -56,6 +56,17 @@ class VehicleController extends AbstractController
 
 
 
+    #[IsGranted('ROLE_TRANSPORTER')]
+    #[Route("/vehicles", name: "api_get_my_vehils", methods: ["GET"])]
+    public function getTransporterVehicles()
+    {
+        return $this->manager
+                        ->init(['transporterCode'=>$this->getUser()->getCode()])
+                        ->getTransporterVehicles();
+    }
+
+
+
     #[IsGranted("ROLE_TRANSPORTER")]
     #[Route("/vehicle/{code}", name: "api_delete_vehile", methods: ["DELETE"])]
     public function deleteVehicle($code, Vehicle $vehicle, AuthorizationCheckerInterface $authorizationChecker) {

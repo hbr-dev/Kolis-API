@@ -8,11 +8,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Authentication extends CommonParameterBag
 {
     #[Assert\NotBlank]
-    public string $username;
+    public $username;
 
     #[Assert\NotBlank]
-    public string $intention;
+    public $intention;
 
     #[Assert\NotBlank]
-    public string $password;
+    public $password;
 }

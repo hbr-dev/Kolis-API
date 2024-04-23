@@ -97,6 +97,20 @@ class VehicleManager extends AbstractManager
 
 
 
+    public function getTransporterVehicles()
+    {
+        $vehicles = [];
+        $vehiclesAsObjects = $this->getObjectsByOwner("Vehicle", "transporter", $this->transporter);
+
+        foreach ($vehiclesAsObjects as $object) {
+            $vehicles[$object->getId()] = $object->toArray();
+        }
+
+        return ['data' => $vehicles];
+    }
+
+
+
     public function getCode() 
     {
         return $this->code;

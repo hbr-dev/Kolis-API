@@ -53,7 +53,7 @@ class TransporterController extends AbstractController
 
     #[IsGranted("ROLE_TRANSPORTER")]
     /**
-     * @Route("/transporter", name="api_update_transporter", methods={"POST"})
+     * @Route("/transporter", name="api_update_transporter", methods={"PUT"})
      * @Mapping(object="App\APIModel\Mobile\Transporter", as="_transporter")
      */
     public function editTransporter()

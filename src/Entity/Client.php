@@ -8,6 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 use SSH\MyJwtBundle\Entity\AbstractEntity;
 use Symfony\Component\Uid\Uuid;
 
+// User Entity 
+
 #[ORM\Entity(repositoryClass: ClientRepository::class)]
 class Client extends AbstractEntity
 {

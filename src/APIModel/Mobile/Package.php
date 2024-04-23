@@ -14,10 +14,10 @@ class Package extends CommonParameterBag
         max: 300,
         maxMessage: 'Paragraph length must be less than 300.'
     )]
-    public string $description;
+    public $description;
     
     #[Assert\NotBlank]
-    public float $weight;
+    public $weight;
     
     #[Assert\NotBlank]
     #[Assert\Count(
@@ -27,11 +27,9 @@ class Package extends CommonParameterBag
         maxMessage: "Dimensions array must have exactly 3 elements"
      )]
     public $dimensions;
+
+
     
-    /**
-     *
-     * @var \DecimalType
-     */
     #[Assert\Regex(
         pattern: "/^\d{1,3}(\.\d{1,3})?$/",
         message: 'Transportation charges not valid. eg. 105.650'

@@ -94,11 +94,11 @@ class ClientManager extends AbstractManager
 
         $data = [
             "code" => $client->getCode(),
-            "role" => "CLIENT",
+            "role" => "MOBILE,CLIENT",
             "mail" => ($client->getEmail() ? $client->getEmail() : "__@__.com"),
             "username" => $client->getPhoneNumber(),
             "password" => $client->getPassword(),
-            "roles" => "MOBILE,CLIENT"
+            "roles" => "[]"
         ];
         $user = $this->insertObject($data, ApiUser::class, 'username', ['username' => $data['username']]);
 

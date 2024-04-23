@@ -50,7 +50,7 @@ class PController extends AbstractController
 
     #[IsGranted("ROLE_CLIENT")]
     /**
-     * @Route("/client", name="api_edit_client", methods={"POST"})
+     * @Route("/client", name="api_edit_client", methods={"PUT"})
      * @Mapping(object="App\APIModel\Mobile\Client", as="_client")
      */
     public function editClient()

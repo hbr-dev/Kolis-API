@@ -44,7 +44,7 @@ class PackController extends AbstractController
     #[Route("/pack/{code}", name: "api_get_pack", methods: ["GET"])]
     public function getPack($code, Pack $pack, AuthorizationCheckerInterface $authorizationChecker) 
     {
-        
+        // To Prevent conncected to get others packs
         if (!$authorizationChecker->isGranted('VIEW', $pack)) {
             throw new AccessDeniedHttpException('Access denied.');
         }

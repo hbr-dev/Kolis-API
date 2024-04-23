@@ -94,11 +94,11 @@ class TransporterManager extends AbstractManager
         
         $data = [
             "code" => $transporter->getCode(),
-            "role" => "TRANSPORTER",
+            "role" => "MOBILE,TRANSPORTER",
             "mail" => ($transporter->getEmail() ? $transporter->getEmail() : "__@__.com"),
             "username" => $transporter->getPhoneNumber(),
             "password" => $transporter->getPassword(),
-            "roles" => "MOBILE,TRANSPORTER"
+            "roles" => "[]"
         ];
         $user = $this->insertObject($data, ApiUser::class, 'username', ['username' => $data['username']]);
 

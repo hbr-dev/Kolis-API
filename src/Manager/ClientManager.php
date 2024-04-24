@@ -137,6 +137,9 @@ class ClientManager extends AbstractManager
                 'messages' => 'unauthorized_action',
             ]];
         } else {
+            if ($data['new_password']) {
+                $data['password'] = hash(self::HASH_ALGO, $data['new_password']);
+            }
             return $this->updateObject(Client::class, $this->client, $data, 'phoneNumber', ['phoneNumber' => $data['phoneNumber']]);
         }
     }

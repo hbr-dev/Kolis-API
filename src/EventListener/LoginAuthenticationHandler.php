@@ -78,6 +78,7 @@ class LoginAuthenticationHandler //implements AuthenticationSuccessHandlerInterf
                         ->getClient(true);
             }
         }
+        $informations["roles"] = $roles;
         $event->setControllerResult($informations + $result);
     }
 }

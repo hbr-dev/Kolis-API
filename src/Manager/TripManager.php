@@ -143,7 +143,7 @@ class TripManager extends AbstractManager
 
         $criteria = [
             "date" => [
-                '<',
+                'gt',
                 $today->format('Y-m-d H:i:s')
             ]
         ];

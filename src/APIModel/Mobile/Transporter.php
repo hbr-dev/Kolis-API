@@ -70,7 +70,7 @@ class Transporter extends CommonParameterBag
 
     public $idVerified = false;
 
-    public $active = false;
+    public $active = true;
 
     public $profile_img = null;
 

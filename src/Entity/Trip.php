@@ -44,13 +44,13 @@ class Trip extends AbstractEntity
     #[ORM\JoinColumn(nullable: false)]
     private ?Transporter $transporter = null;
 
-    #[ORM\OneToMany(mappedBy: 'trip', targetEntity: Package::class)]
-    private Collection $packages;
+    // #[ORM\OneToMany(mappedBy: 'trip', targetEntity: Package::class)]
+    // private Collection $packages;
 
     public function __construct($data = [])
     {
         parent::__construct($data);
-        $this->packages = new ArrayCollection();
+        // $this->packages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -154,33 +154,33 @@ class Trip extends AbstractEntity
         return $this;
     }
 
-    /**
-     * @return Collection<int, Package>
-     */
-    public function getPackages(): Collection
-    {
-        return $this->packages;
-    }
+    // /**
+    //  * @return Collection<int, Package>
+    //  */
+    // public function getPackages(): Collection
+    // {
+    //     return $this->packages;
+    // }
 
-    public function addPackage(Package $package): static
-    {
-        if (!$this->packages->contains($package)) {
-            $this->packages->add($package);
-            $package->setTrip($this);
-        }
+    // public function addPackage(Package $package): static
+    // {
+    //     if (!$this->packages->contains($package)) {
+    //         $this->packages->add($package);
+    //         $package->setTrip($this);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function removePackage(Package $package): static
-    {
-        if ($this->packages->removeElement($package)) {
-            // set the owning side to null (unless already changed)
-            if ($package->getTrip() === $this) {
-                $package->setTrip(null);
-            }
-        }
+    // public function removePackage(Package $package): static
+    // {
+    //     if ($this->packages->removeElement($package)) {
+    //         // set the owning side to null (unless already changed)
+    //         if ($package->getTrip() === $this) {
+    //             $package->setTrip(null);
+    //         }
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 }

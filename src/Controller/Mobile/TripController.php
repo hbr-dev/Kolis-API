@@ -46,7 +46,7 @@ class TripController extends AbstractController
     {
         return $this->manager
                         ->init(['code' => $code])
-                        ->getTrip(true);
+                        ->getTrip();
     }
 
 

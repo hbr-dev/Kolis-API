@@ -51,6 +51,16 @@ class TripController extends AbstractController
 
 
 
+    #[IsGranted('ROLE_CLIENT')]
+    #[Route("/client/available_trips", name: "api_get_available_trips", methods: ["GET"])]
+    public function getAvailableTrips()
+    {
+        return $this->manager
+                        ->getAvailableTrips();
+    }
+
+
+
     #[IsGranted('ROLE_TRANSPORTER')]
     #[Route("/trips", name: "api_get_my_trips", methods: ["GET"])]
     public function getTransporterTrips() 
@@ -66,7 +76,6 @@ class TripController extends AbstractController
     #[Route("/trip/{code}", name: "api_delete_trip", methods: ["DELETE"])]
     public function deleteTrip($code, Trip $trip, AuthorizationCheckerInterface $authorizationChecker) 
     {
-        
         if (!$authorizationChecker->isGranted('VIEW', $trip)) {
             throw new AccessDeniedHttpException('Access denied.');
         }
@@ -85,7 +94,6 @@ class TripController extends AbstractController
      */
     public function editTrip($code, Trip $trip, AuthorizationCheckerInterface $authorizationChecker)
     {
-        
         if (!$authorizationChecker->isGranted('VIEW', $trip)) {
             throw new AccessDeniedHttpException('Access denied.');
         }
@@ -101,7 +109,6 @@ class TripController extends AbstractController
     #[Route("/trip/{code}/{status}", name: "api_patch_trip_status", methods: ["PATCH"])]
     public function updateTripStatus($code, string $status, Trip $trip, AuthorizationCheckerInterface $authorizationChecker) 
     {
-        
         if (!$authorizationChecker->isGranted('VIEW', $trip)) {
             throw new AccessDeniedHttpException('Access denied.');
         }

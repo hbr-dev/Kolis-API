@@ -137,28 +137,16 @@ class TripManager extends AbstractManager
     public function getAvailableTrips()
     {
         $trips = [];
-
-        // $today = new DateTime();
-        // $today->setTimezone(new DateTimeZone('CET'));
-
-        // $criteria = [
-        //     "date" => [
-        //         '<',
-        //         $today->format('Y-m-d')
-        //     ]
-        // ];
-
-        // $tripsAsObjects = $this->getObjectsByCriteria("Trip", $criteria);
         
         $today = new DateTime('now');
-        $todayUtc = $today->setTimezone(new DateTimeZone('CET'));  // Convert to UTC (adjust if needed)
+        $todayCET = $today->setTimezone(new DateTimeZone('CET'));  // Convert to UTC (adjust if needed)
 
         $repository = $this->em->getRepository(Trip::class);
 
         $qb = $repository->createQueryBuilder('t');
 
-        $qb->where($qb->expr()->gt('t.date', ':todayUtc'))
-           ->setParameter('todayUtc', $todayUtc);
+        $qb->where($qb->expr()->gt('t.date', ':todayCET'))
+           ->setParameter('todayCET', $todayCET);
 
         $tripsAsObjects = $qb->getQuery()->getResult();
 

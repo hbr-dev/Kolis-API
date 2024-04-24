@@ -69,6 +69,8 @@ class LoginAuthenticationHandler //implements AuthenticationSuccessHandlerInterf
                 $informations = $this->transporterManager
                         ->init(['code' => $code])
                         ->getTransporter(true);
+                
+                $informations["roles"] = $roles;
 
             }
 
@@ -76,9 +78,10 @@ class LoginAuthenticationHandler //implements AuthenticationSuccessHandlerInterf
                 $informations = $this->clientManager
                         ->init(['code' => $code])
                         ->getClient(true);
+                
+                $informations["roles"] = $roles;
             }
         }
-        $informations["roles"] = $roles;
         $event->setControllerResult($informations + $result);
     }
 }

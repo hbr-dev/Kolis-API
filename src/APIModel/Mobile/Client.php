@@ -7,11 +7,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 
-
-
-class Transporter extends CommonParameterBag
+class Client extends CommonParameterBag
 {
-
     #[Assert\NotBlank]
     #[Assert\Regex(
         pattern: '/^[a-zA-Z]{2,}$/',
@@ -25,15 +22,7 @@ class Transporter extends CommonParameterBag
         message: 'Invalid last name'
     )]
     public $lastName;
-    
-    #[Assert\NotBlank]
-    #[Assert\Regex(
-        pattern: '/^[a-zA-Z0-9\s.,#:-]{10,255}$/',
-        message: 'Please enter a valid address'
-    )]
-    public $address;
-    
-    
+
     #[Assert\Regex(
         pattern: "/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/",
         message: "Invalid email address"
@@ -55,6 +44,8 @@ class Transporter extends CommonParameterBag
     )]
     public $phoneNumber;
 
+
+
     #[Assert\NotBlank]
     #[Assert\Length(
         min: 6,
@@ -68,10 +59,25 @@ class Transporter extends CommonParameterBag
     )]
     public $password;
 
+
+    
+    #[Assert\Length(
+        min: 6,
+        minMessage: 'Password must be at least 6 characters long.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]+$/',
+        message: 'Password must contain at least one lowercase letter, 
+                  one uppercase letter, one digit, and one special 
+                  character !@#$%^&*'
+    )]
+    public $new_password;
+
+    public $awaitingForDelivery = false;
+
     public $idVerified = false;
 
     public $active = true;
 
     public $profile_img = null;
-
 }

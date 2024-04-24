@@ -2,6 +2,7 @@
 
 namespace App\Manager;
 
+use App\Entity\Package;
 use App\Entity\Transporter;
 use App\Entity\Trip;
 use App\Manager\AbstractManager;
@@ -106,6 +107,25 @@ class TripManager extends AbstractManager
         }
 
         return ['data' => $trips];
+    }
+
+
+
+    public function getRelatedPackages()
+    {
+        $packages = [];
+        $criteria = ['trip_id' => $this->trip->getId()];
+          
+        $orderBy = ['createdAt' => 'DESC'];
+        
+        $repository = $this->em->getRepository(Package::class);
+        $packagesAsObjects = $repository->findBy($criteria, $orderBy);
+
+        foreach ($packagesAsObjects as $object) {
+            $packages[$object->getId()] = $object->toArray();
+        }
+
+        return ['data' => $packages];
     }
 
 

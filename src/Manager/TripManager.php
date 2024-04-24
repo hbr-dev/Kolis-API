@@ -89,7 +89,10 @@ class TripManager extends AbstractManager
     public function getTrip($array = false)
     {
         if ($array) {
-            return ['data' => $this->trip->toArray()];
+            return [
+                'data' => $this->trip->toArray(),
+                $this->getRelatedPackages()
+            ];
         }
 
         return $this->trip;
@@ -111,7 +114,7 @@ class TripManager extends AbstractManager
 
 
 
-    public function getRelatedPackages()
+    private function getRelatedPackages()
     {
         $packages = [];
         $criteria = ['trip' => $this->trip];
@@ -125,7 +128,7 @@ class TripManager extends AbstractManager
             $packages[$object->getId()] = $object->toArray();
         }
 
-        return ['data' => $packages];
+        return ['packages' => $packages];
     }
 
 

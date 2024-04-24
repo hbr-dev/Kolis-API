@@ -187,14 +187,25 @@ class AbstractManager
 
 
 
-    public function getObjectsByOwner(string $entityType, $field, $user)
+    public function getObjectsByOwner(string $entity, $field, $user)
     {   
         if (!$user) {
             throw new \Exception('User not authenticated');
         }
 
-        $repository = $this->em->getRepository('App\Entity\\' . $entityType);
+        $repository = $this->em->getRepository('App\Entity\\' . $entity);
         $objects = $repository->findBy([$field => $user]);
+
+        return $objects;
+    }
+
+
+
+
+    public function getObjectsByCriteria(string $entity, $criteria, $orderBy = null, $limit = null)
+    {
+        $repository = $this->em->getRepository('App\Entity\\' . $entity);
+        $objects = $repository->findBy($criteria, $orderBy, $limit);
 
         return $objects;
     }

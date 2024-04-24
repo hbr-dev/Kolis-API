@@ -114,7 +114,7 @@ class TripManager extends AbstractManager
     public function getRelatedPackages()
     {
         $packages = [];
-        $criteria = ['trip_id' => $this->trip->getId()];
+        $criteria = ['trip' => $this->trip];
           
         $orderBy = ['createdAt' => 'DESC'];
         

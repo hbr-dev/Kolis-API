@@ -6,6 +6,7 @@ use App\Entity\Package;
 use App\Entity\Transporter;
 use App\Entity\Trip;
 use App\Manager\AbstractManager;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use SSH\MyJwtBundle\Manager\ExceptionManager;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -100,6 +101,24 @@ class TripManager extends AbstractManager
 
 
 
+    private function getRelatedPackages()
+    {
+        $packages = [];
+        $criteria = ['trip' => $this->trip];
+          
+        $orderBy = ['createdAt' => 'DESC'];
+        
+        $packagesAsObjects = $this->getObjectsByCriteria("Package", $criteria, orderBy:$orderBy);
+
+        foreach ($packagesAsObjects as $object) {
+            $packages[$object->getId()] = $object->toArray();
+        }
+
+        return $packages;
+    }
+
+
+
     public function getTransporterTrips()
     {
         $trips = [];
@@ -114,21 +133,26 @@ class TripManager extends AbstractManager
 
 
 
-    private function getRelatedPackages()
+    public function getAvailableTrips()
     {
-        $packages = [];
-        $criteria = ['trip' => $this->trip];
-          
-        $orderBy = ['createdAt' => 'DESC'];
-        
-        $repository = $this->em->getRepository(Package::class);
-        $packagesAsObjects = $repository->findBy($criteria, $orderBy);
+        $trips = [];
 
-        foreach ($packagesAsObjects as $object) {
-            $packages[$object->getId()] = $object->toArray();
+        $today = new DateTime();
+
+        $criteria = [
+            "date" => [
+                '<',
+                $today->format('Y-m-d')
+            ]
+        ];
+
+        $tripsAsObjects = $this->getObjectsByCriteria("Trip", $criteria);
+        
+        foreach ($tripsAsObjects as $object) {
+            $trips[$object->getId()] = $object->toArray();
         }
 
-        return $packages;
+        return ['data' => $trips];
     }
 
 

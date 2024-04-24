@@ -7,6 +7,7 @@ use App\Entity\Transporter;
 use App\Entity\Trip;
 use App\Manager\AbstractManager;
 use DateTime;
+use DateTimeZone;
 use Doctrine\ORM\EntityManagerInterface;
 use SSH\MyJwtBundle\Manager\ExceptionManager;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -138,6 +139,7 @@ class TripManager extends AbstractManager
         $trips = [];
 
         $today = new DateTime();
+        $today->setTimezone(new DateTimeZone('CET'));
 
         $criteria = [
             "date" => [

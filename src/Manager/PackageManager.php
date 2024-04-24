@@ -271,7 +271,7 @@ class PackageManager extends AbstractManager
             $this->package->setStatus($packageStatus);
             if ($removeTrip) {
                 if ($this->package->getTrip()) {
-                    $this->package->getTrip()->getPackages()->removeElement($this->package);
+                    // $this->package->getTrip()->getPackages()->removeElement($this->package);
                     $this->package->setTrip(null);
                 } else {
                     $this->exceptionManager->throwNotFoundException("No pending trip demand for this package");

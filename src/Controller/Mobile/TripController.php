@@ -62,6 +62,17 @@ class TripController extends AbstractController
 
 
 
+    #[IsGranted("ROLE_TRANSPORTER")]
+    #[Route("/trip/{code}/packages", name: "api_get_related_packages", methods: ["GET"])]
+    public function getRelatedPackages($code)
+    {
+        return $this->manager
+                        ->init(['code' => $code])
+                        ->getRelatedPackages();
+    }
+
+
+
     #[IsGranted('ROLE_TRANSPORTER')]
     #[Route("/trip/{code}", name: "api_delete_trip", methods: ["DELETE"])]
     public function deleteTrip($code, Trip $trip, AuthorizationCheckerInterface $authorizationChecker) 

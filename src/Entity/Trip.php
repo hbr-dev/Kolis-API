@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\TripRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use SSH\MyJwtBundle\Entity\AbstractEntity;
@@ -44,13 +42,9 @@ class Trip extends AbstractEntity
     #[ORM\JoinColumn(nullable: false)]
     private ?Transporter $transporter = null;
 
-    // #[ORM\OneToMany(mappedBy: 'trip', targetEntity: Package::class)]
-    // private Collection $packages;
-
     public function __construct($data = [])
     {
         parent::__construct($data);
-        // $this->packages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -153,34 +147,4 @@ class Trip extends AbstractEntity
 
         return $this;
     }
-
-    // /**
-    //  * @return Collection<int, Package>
-    //  */
-    // public function getPackages(): Collection
-    // {
-    //     return $this->packages;
-    // }
-
-    // public function addPackage(Package $package): static
-    // {
-    //     if (!$this->packages->contains($package)) {
-    //         $this->packages->add($package);
-    //         $package->setTrip($this);
-    //     }
-
-    //     return $this;
-    // }
-
-    // public function removePackage(Package $package): static
-    // {
-    //     if ($this->packages->removeElement($package)) {
-    //         // set the owning side to null (unless already changed)
-    //         if ($package->getTrip() === $this) {
-    //             $package->setTrip(null);
-    //         }
-    //     }
-
-    //     return $this;
-    // }
 }

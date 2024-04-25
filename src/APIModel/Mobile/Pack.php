@@ -17,9 +17,19 @@ class Pack extends CommonParameterBag
         message: 'Price is not valid. eg. 105.650'
     )]
     public $price;
-    
 
-    
+
+
     #[Assert\NotBlank]
-    public $expiration_date;
+    public $description;
+
+
+
+    #[Assert\NotBlank]
+    public $freeTrialPeriod;
+
+
+
+    #[Assert\NotBlank]
+    public $subscriptionPeriod;
 }

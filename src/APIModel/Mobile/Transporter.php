@@ -14,14 +14,14 @@ class Transporter extends CommonParameterBag
 
     #[Assert\NotBlank]
     #[Assert\Regex(
-        pattern: '/^[a-zA-Z]{2,}$/',
+        pattern: '/^[a-zA-Z\s]{2,}$/',
         message: 'Invalid first name'
     )]
     public $firstName;
 
     #[Assert\NotBlank]
     #[Assert\Regex(
-        pattern: '/^[a-zA-Z]{2,}$/',
+        pattern: '/^[a-zA-Z\s]{2,}$/',
         message: 'Invalid last name'
     )]
     public $lastName;

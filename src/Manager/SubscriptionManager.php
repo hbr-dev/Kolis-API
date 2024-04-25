@@ -155,7 +155,9 @@ class SubscriptionManager extends AbstractManager
 
     public function createSubscription()
     {
-        if ($this->subscription->getExpirationDate() < new \DateTime('now', new \DateTimeZone('CET'))) {
+        $subscriptions = $this->getTransporterSubscriptions(false);
+
+        if ( count($subscriptions) == 0 || (count($subscriptions) != 0 && end($subscriptions)->getExpirationDate() < new \DateTime('now', new \DateTimeZone('CET'))) ) {
             $data = (array) $this->request->get('subscription');
             $data['transporter'] = $this->transporter;
             $data['pack'] = $this->pack;
@@ -176,23 +178,28 @@ class SubscriptionManager extends AbstractManager
             ]];
         } else {
             return [
-                'data' => 'Your subscription plan is active until ' . $this->subscription->getExpirationDate()->format('Y-m-d H:i')
+                'data' => 'Your subscription plan is active until ' . end($subscriptions)->getExpirationDate()->format('Y-m-d H:i')
             ];
         }
     }
 
 
 
-    public function getTransporterSubscriptions()
+    public function getTransporterSubscriptions($returnResponse = true)
     {
-        $subscriptions = [];
         $subscriptionsAsObjects = $this->getObjectsByOwner("Subscription", "transporter", $this->transporter);
-
-        foreach ($subscriptionsAsObjects as $object) {
-            $subscriptions[$object->getId()] = $object->toArray();
+        
+        if ($returnResponse) {
+            $subscriptions = [];
+    
+            foreach ($subscriptionsAsObjects as $object) {
+                $subscriptions[$object->getId()] = $object->toArray();
+            }
+    
+            return ['data' => $subscriptions];
         }
 
-        return ['data' => $subscriptions];
+        return $subscriptionsAsObjects;
     }
     
 

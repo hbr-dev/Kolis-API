@@ -155,9 +155,9 @@ class SubscriptionManager extends AbstractManager
 
     public function createSubscription()
     {
-        $subscriptions = $this->getTransporterSubscriptions(false);
+        $subscriptions = $this->getTransporterSubscriptions(returnResponse: false);
 
-        if ( count($subscriptions) == 0 || (count($subscriptions) != 0 && end($subscriptions)->getExpirationDate() < new \DateTime('now', new \DateTimeZone('CET'))) ) {
+        if ( count($subscriptions) == 0 || (count($subscriptions) != 0 && $this->noActiveSubscription($subscriptions)) ) {
             $data = (array) $this->request->get('subscription');
             $data['transporter'] = $this->transporter;
             $data['pack'] = $this->pack;
@@ -178,9 +178,22 @@ class SubscriptionManager extends AbstractManager
             ]];
         } else {
             return [
-                'data' => 'Your subscription plan is active until ' . end($subscriptions)->getExpirationDate()->format('Y-m-d H:i')
+                'data' => 'You steal have an active subscription'
             ];
         }
+    }
+
+
+
+    private function noActiveSubscription(array $subscriptions): bool
+    {
+        foreach ($subscriptions as $subscription) {
+            if ( $subscription->getExpirationDate() > new \DateTime('now', new \DateTimeZone('CET')) ) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 

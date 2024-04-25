@@ -18,30 +18,18 @@ class PackManager extends AbstractManager
     private $pack;
 
     /**
-     * @var Transporter
-     */
-    private $transporter;
-
-    /**
      * @var ExceptionManager
      */
     private $exceptionManager;
 
-    /**
-     * @var TransporterManager
-     */
-    private $transporterManager;
-
     private $code;
-    private $transporterCode;
     private $em;
 
 
 
 
-    public function __construct(TransporterManager $transporterManager, RequestStack $requestStack, ExceptionManager $exceptionManager, EntityManagerInterface $em) 
+    public function __construct(RequestStack $requestStack, ExceptionManager $exceptionManager, EntityManagerInterface $em) 
     {
-        $this->transporterManager = $transporterManager;
         $this->exceptionManager = $exceptionManager;
         $this->em = $em;
 
@@ -73,38 +61,7 @@ class PackManager extends AbstractManager
             }
         }
 
-        if ($this->getTransporterCode()) {
-            $this->transporter = $this->transporterManager
-                                        ->init(['code' => $this->getTransporterCode()])
-                                        ->getTransporter();
-        }
-
         return $this;
-    }
-
-
-
-    public function getPack($array = false)
-    {
-        if ($array) {
-            return ['data' => $this->pack->toArray()];
-        }
-
-        return $this->pack;
-    }
-
-
-
-    public function getTransporterPacks()
-    {
-        $packs = [];
-        $packsAsObjects = $this->getObjectsByOwner("Pack", "transporter", $this->transporter);
-
-        foreach ($packsAsObjects as $object) {
-            $packs[$object->getId()] = $object->toArray();
-        }
-
-        return ['data' => $packs];
     }
 
 
@@ -125,28 +82,9 @@ class PackManager extends AbstractManager
 
 
 
-    public function getTransporterCode() 
-    {
-        return $this->transporterCode;
-    }
-
-
-
-    public function setTransporterCode($transporterCode) 
-    {
-        $this->transporterCode = $transporterCode;
-        return $this;
-
-    }
-
-
-
     public function createPack()
     {
         $data = (array) $this->request->get('pack');
-        $data['expiration_date'] = new \DateTime($data['expiration_date']);
-
-        $data['transporter'] = $this->transporter;
 
         $pack = $this->insertObject($data, Pack::class);
 
@@ -155,21 +93,32 @@ class PackManager extends AbstractManager
                 'object' => $pack->getCode()
         ]];
     }
-    
 
-    
-    public function updateSubscription()
+
+
+    public function getPack($array = false)
     {
-        $data = (array) $this->request->get('_pack');
-        $data['expiration_date'] = new \DateTime($data['expiration_date']);
+        if ($array) {
+            return ['data' => $this->pack->toArray()];
+        }
 
-        return $this->updateObject(Pack::class, $this->pack, $data);
+        return $this->pack;
     }
 
 
 
-    public function cancelSubscription() 
+    public function getAllPacks()
     {
-        return $this->deleteObject($this->pack);
+        
+        $packs = [];
+        $criteria = [];
+        
+        $packsAsObjects = $this->getObjectsByCriteria("Pack", $criteria);
+
+        foreach ($packsAsObjects as $object) {
+            $packs[$object->getId()] = $object->toArray();
+        }
+
+        return ['data' => $packs];
     }
 }

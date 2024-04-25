@@ -222,8 +222,5 @@ class Transporter extends AbstractEntity
         $this->address = $address;
 
         return $this;
-    }
-
-
-    
+    } 
 }

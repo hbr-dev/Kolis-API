@@ -22,18 +22,20 @@ class Pack extends AbstractEntity
     #[ORM\Column(type: Types::DECIMAL, precision: 6, scale: 3)]
     private ?string $price = null;
 
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $description = null;
+
+    #[ORM\Column]
+    private ?int $freeTrialPeriod = null;
+
+    #[ORM\Column]
+    private ?int $subscriptionPeriod = null;
+
     #[ORM\Column]
     private ?\DateTime $createdAt = null;
 
     #[ORM\Column]
-    private ?\DateTime $expiration_date = null;
-
-    #[ORM\Column]
     private ?\DateTime $updatedAt = null;
-
-    #[ORM\ManyToOne(inversedBy: 'packs')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Transporter $transporter = null;
 
 
     public function __construct($data = [])
@@ -96,22 +98,6 @@ class Pack extends AbstractEntity
 
 
 
-    public function getExpirationDate(): ?\DateTime
-    {
-        return $this->expiration_date;
-    }
-
-
-
-    public function setExpirationDate(\DateTime $expiration_date): static
-    {
-        $this->expiration_date = $expiration_date;
-
-        return $this;
-    }
-
-
-
     public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
@@ -126,14 +112,38 @@ class Pack extends AbstractEntity
         return $this;
     }
 
-    public function getTransporter(): ?Transporter
+    public function getDescription(): ?string
     {
-        return $this->transporter;
+        return $this->description;
     }
 
-    public function setTransporter(?Transporter $transporter): static
+    public function setDescription(string $description): static
     {
-        $this->transporter = $transporter;
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getFreeTrialPeriod(): ?int
+    {
+        return $this->freeTrialPeriod;
+    }
+
+    public function setFreeTrialPeriod(int $freeTrialPeriod): static
+    {
+        $this->freeTrialPeriod = $freeTrialPeriod;
+
+        return $this;
+    }
+
+    public function getSubscriptionPeriod(): ?int
+    {
+        return $this->subscriptionPeriod;
+    }
+
+    public function setSubscriptionPeriod(int $subscriptionPeriod): static
+    {
+        $this->subscriptionPeriod = $subscriptionPeriod;
 
         return $this;
     }

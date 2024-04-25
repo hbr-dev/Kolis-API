@@ -64,7 +64,9 @@ class TransporterManager extends AbstractManager
     public function getTransporter($array = false)
     {
         if ($array) {
-            return ['data' => $this->transporter->toArray()];
+            $transporter = $this->transporter->toArray();
+            unset($transporter['password']);
+            return ['data' => $transporter];
         }
 
         return $this->transporter;
@@ -88,8 +90,9 @@ class TransporterManager extends AbstractManager
 
     public function createTransporter()
     {
+        // the password hashed from the frontend
         $data = (array) $this->request->get('transporter');
-        $data['password'] = hash(self::HASH_ALGO, $data['password']);
+        
         $transporter = $this->insertObject($data, Transporter::class, 'phoneNumber', ['phoneNumber' => $data['phoneNumber']]);
         
         $data = [
@@ -111,23 +114,19 @@ class TransporterManager extends AbstractManager
 
 
 
-    public function deleteTransporter() 
-    {
-        return $this->deleteObject($this->transporter);
-    }
-
-
-
     public function editTransporter()
     {
+        // the password hashed from the frontend
         $data = (array) $this->request->get('_transporter');
 
-        $data['password'] = hash(self::HASH_ALGO, $data['password']);
         if($data['password'] != $this->transporter->getPassword()) {
             return ['data' => [
                 'messages' => 'unauthorized_action',
             ]];
         } else {
+            if ($data['new_password']) {
+                $data['password'] = $data['new_password'];
+            }
             return $this->updateObject(Transporter::class, $this->transporter, $data, 'phoneNumber', ['phoneNumber' => $data['phoneNumber']]);
         }
     }
@@ -140,5 +139,12 @@ class TransporterManager extends AbstractManager
         $this->transporter->$setterMethod($value);
 
         return $this->patchObject(Transporter::class, $this->transporter);
+    }
+
+
+
+    public function deleteTransporter() 
+    {
+        return $this->deleteObject($this->transporter);
     }
 }

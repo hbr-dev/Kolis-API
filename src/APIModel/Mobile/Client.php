@@ -47,30 +47,30 @@ class Client extends CommonParameterBag
 
 
     #[Assert\NotBlank]
-    #[Assert\Length(
-        min: 6,
-        minMessage: 'Password must be at least 6 characters long.'
-    )]
-    #[Assert\Regex(
-        pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]+$/',
-        message: 'Password must contain at least one lowercase letter, 
-                  one uppercase letter, one digit, and one special 
-                  character !@#$%^&*'
-    )]
+    // #[Assert\Length(
+    //     min: 6,
+    //     minMessage: 'Password must be at least 6 characters long.'
+    // )]
+    // #[Assert\Regex(
+    //     pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]+$/',
+    //     message: 'Password must contain at least one lowercase letter, 
+    //               one uppercase letter, one digit, and one special 
+    //               character !@#$%^&*'
+    // )]
     public $password;
 
 
     
-    #[Assert\Length(
-        min: 6,
-        minMessage: 'Password must be at least 6 characters long.'
-    )]
-    #[Assert\Regex(
-        pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]+$/',
-        message: 'Password must contain at least one lowercase letter, 
-                  one uppercase letter, one digit, and one special 
-                  character !@#$%^&*'
-    )]
+    // #[Assert\Length(
+    //     min: 6,
+    //     minMessage: 'Password must be at least 6 characters long.'
+    // )]
+    // #[Assert\Regex(
+    //     pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]+$/',
+    //     message: 'Password must contain at least one lowercase letter, 
+    //               one uppercase letter, one digit, and one special 
+    //               character !@#$%^&*'
+    // )]
     public $new_password;
 
     public $awaitingForDelivery = false;

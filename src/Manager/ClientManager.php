@@ -64,7 +64,9 @@ class ClientManager extends AbstractManager
     public function getClient($array = false) 
     {
         if ($array) {
-            return ['data' => $this->client->toArray()];
+            $client = $this->client->toArray();
+            unset($client['password']);
+            return ['data' => $client];
         }
 
         return $this->client;
@@ -88,8 +90,8 @@ class ClientManager extends AbstractManager
 
     public function createClient() 
     {
+        // the password hashed from the frontend
         $data = (array) $this->request->get('client');
-        $data['password'] = hash(self::HASH_ALGO, $data['password']);
         $client = $this->insertObject($data, Client::class, 'phoneNumber', ['phoneNumber' => $data['phoneNumber']]);
 
         $data = [
@@ -107,7 +109,25 @@ class ClientManager extends AbstractManager
                 'object' => $client->getCode(),
                 'user' => $user->getId()
         ]];
-    }    
+    } 
+
+
+
+    public function editClient()
+    {
+        // the password hashed from the frontend
+        $data = (array) $this->request->get('_client');
+        if($data['password'] != $this->client->getPassword()) {
+            return ['data' => [
+                'messages' => 'unauthorized_action',
+            ]];
+        } else {
+            if ($data['new_password']) {
+                $data['password'] = $data['new_password'];
+            }
+            return $this->updateObject(Client::class, $this->client, $data, 'phoneNumber', ['phoneNumber' => $data['phoneNumber']]);
+        }
+    }   
     
     
     
@@ -124,23 +144,5 @@ class ClientManager extends AbstractManager
     public function deleteClient() 
     {
         return $this->deleteObject($this->client);
-    }
-
-
-
-    public function editClient()
-    {
-        $data = (array) $this->request->get('_client');
-        $data['password'] = hash(self::HASH_ALGO, $data['password']);
-        if($data['password'] != $this->client->getPassword()) {
-            return ['data' => [
-                'messages' => 'unauthorized_action',
-            ]];
-        } else {
-            if ($data['new_password']) {
-                $data['password'] = hash(self::HASH_ALGO, $data['new_password']);
-            }
-            return $this->updateObject(Client::class, $this->client, $data, 'phoneNumber', ['phoneNumber' => $data['phoneNumber']]);
-        }
     }
 }

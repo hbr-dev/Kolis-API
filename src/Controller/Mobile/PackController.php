@@ -34,7 +34,6 @@ class PackController extends AbstractController
     public function createPack()
     {
         return $this->manager
-                    ->init(['transporterCode' => $this->getUser()->getCode()])
                     ->createPack();
     }
 
@@ -42,13 +41,8 @@ class PackController extends AbstractController
 
     #[IsGranted("ROLE_TRANSPORTER")]
     #[Route("/pack/{code}", name: "api_get_pack", methods: ["GET"])]
-    public function getPack($code, Pack $pack, AuthorizationCheckerInterface $authorizationChecker) 
+    public function getPack($code)
     {
-        // To Prevent conncected to get others packs
-        if (!$authorizationChecker->isGranted('VIEW', $pack)) {
-            throw new AccessDeniedHttpException('Access denied.');
-        }
-        
         return $this->manager
                         ->init(['code' => $code])
                         ->getPack(true);
@@ -56,47 +50,11 @@ class PackController extends AbstractController
 
 
 
-    #[IsGranted('ROLE_TRANSPORTER')]
-    #[Route("/packs", name: "api_get_my_packs", methods: ["GET"])]
-    public function getTransporterPacks()
-    {
-        return $this->manager
-                        ->init(['transporterCode'=>$this->getUser()->getCode()])
-                        ->getTransporterPacks();
-    }
-
-
-
     #[IsGranted("ROLE_TRANSPORTER")]
-    #[Route("/pack/{code}", name: "api_delete_pack", methods: ["DELETE"])]
-    public function cancelSubscription($code, Pack $pack, AuthorizationCheckerInterface $authorizationChecker) 
+    #[Route("/packs", name: "api_get_all_packs", methods: ["GET"])]
+    public function getAllPacks()
     {
-        
-        if (!$authorizationChecker->isGranted('VIEW', $pack)) {
-            throw new AccessDeniedHttpException('Access denied.');
-        }
-    
         return $this->manager
-                        ->init(['code' => $code])
-                        ->cancelSubscription();
-    }
-
-
-
-    #[IsGranted("ROLE_TRANSPORTER")]
-     /**
-     * @Route("/pack/{code}", name="api_update_pack", methods={"POST"})
-     * @Mapping(object="App\APIModel\Mobile\Pack", as="_pack")
-     */
-    public function updateSubscription($code, Pack $pack, AuthorizationCheckerInterface $authorizationChecker)
-    {
-        
-        if (!$authorizationChecker->isGranted('VIEW', $pack)) {
-            throw new AccessDeniedHttpException('Access denied.');
-        }
-    
-        return $this->manager
-                        ->init(['code' => $code])
-                        ->updateSubscription();
+                        ->getAllPacks();
     }
 }

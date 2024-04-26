@@ -6,8 +6,6 @@ use App\Entity\Transporter;
 use App\Entity\Vehicle;
 use App\Manager\AbstractManager;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\This;
-use SSH\MyJwtBundle\Entity\TokenApiUser;
 use SSH\MyJwtBundle\Manager\ExceptionManager;
 use Symfony\Component\HttpFoundation\RequestStack;
 

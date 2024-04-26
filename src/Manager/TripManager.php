@@ -2,7 +2,6 @@
 
 namespace App\Manager;
 
-use App\Entity\Package;
 use App\Entity\Transporter;
 use App\Entity\Trip;
 use App\Manager\AbstractManager;

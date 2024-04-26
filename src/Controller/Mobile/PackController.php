@@ -28,19 +28,6 @@ class PackController extends AbstractController
 
 
     #[IsGranted("ROLE_TRANSPORTER")]
-    /**
-     * @Route("/pack", name="api_new_pack", methods={"POST"})
-     * @Mapping(object="App\APIModel\Mobile\Pack", as="pack")
-     */
-    public function createPack()
-    {
-        return $this->manager
-                        ->createPack();
-    }
-
-
-
-    #[IsGranted("ROLE_TRANSPORTER")]
     #[Route("/pack/{code}", name: "api_get_pack", methods: ["GET"])]
     public function getPack($code)
     {

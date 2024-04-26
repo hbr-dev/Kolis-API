@@ -6,8 +6,6 @@ use App\Entity\Pack;
 use App\Entity\Subscription;
 use App\Entity\Transporter;
 use App\Manager\AbstractManager;
-use DateInterval;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use SSH\MyJwtBundle\Manager\ExceptionManager;
 use Symfony\Component\HttpFoundation\RequestStack;

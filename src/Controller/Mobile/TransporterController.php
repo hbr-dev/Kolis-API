@@ -66,16 +66,6 @@ class TransporterController extends AbstractController
 
 
     #[IsGranted("ROLE_TRANSPORTER")]
-    #[Route("/transporter/active/{status}", name: "api_patch_active_status_tr", methods: ["PATCH"])]
-    public function updateActiveStatus(bool $status) {
-        return $this->manager
-                        ->init(["code" => $this->getUser()->getCode()])
-                        ->bulkUpdateStatuses('active', $status);
-    }
-
-
-
-    #[IsGranted("ROLE_TRANSPORTER")]
     #[Route("/transporter/verified/{status}", name: "api_patch_idVerification_status_tr", methods: ["PATCH"])]
     public function updateIdVerificationStatus(bool $status) {
         return $this->manager

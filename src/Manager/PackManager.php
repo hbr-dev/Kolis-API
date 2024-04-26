@@ -3,7 +3,6 @@
 namespace App\Manager;
 
 use App\Entity\Pack;
-use App\Entity\Transporter;
 use App\Manager\AbstractManager;
 use Doctrine\ORM\EntityManagerInterface;
 use SSH\MyJwtBundle\Manager\ExceptionManager;

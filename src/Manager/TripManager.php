@@ -101,6 +101,12 @@ class TripManager extends AbstractManager
 
 
 
+    public function getTrips($defaultPage = null, $size = null) {
+        return $this->getObjectsWithPagination('Trip', page:$defaultPage, itemsPerPage: $size);
+    }
+
+
+
     private function getRelatedPackages()
     {
         $packages = [];

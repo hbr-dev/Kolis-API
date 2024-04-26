@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use SSH\MyJwtBundle\Annotations\Mapping;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -34,7 +35,7 @@ class PackController extends AbstractController
     public function createPack()
     {
         return $this->manager
-                    ->createPack();
+                        ->createPack();
     }
 
 

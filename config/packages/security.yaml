@@ -11,10 +11,11 @@ security:
                 property: token
     
     role_hierarchy:        
-        ROLE_USER:           ROLE_USER  
-        ROLE_BACK:          [ROLE_BACK, ROLE_USER]
-        ROLE_TRANSPORTER:   [ROLE_TRANSPORTER, ROLE_USER]
-        ROLE_CLIENT:        [ROLE_CLIENT, ROLE_USER]            
+        ROLE_MOBILE:         ROLE_MOBILE 
+        ROLE_BACK:           ROLE_BACK
+        ROLE_TRANSPORTER:   [ROLE_TRANSPORTER, ROLE_MOBILE]
+        ROLE_CLIENT:        [ROLE_CLIENT, ROLE_MOBILE]
+        ROLE_ADMIN:         [ROLE_ADMIN, ROLE_BACK]            
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -32,13 +33,8 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/authenticate, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        # - { path: ^/mobile/vehicle, roles: ROLE_TRANSPORTER }
-        # - { path: ^/mobile/pack, roles: ROLE_TRANSPORTER }
-        # - { path: ^/mobile/package, roles: ROLE_CLIENT }
-        # - { path: ^/mobile/trip, roles: ROLE_TRANSPORTER }
-
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/mobile, roles: ROLE_MOBILE }
+        - { path: ^/back, roles: ROLE_BACK }
 
 when@test:
     security:

@@ -185,6 +185,12 @@ class PackageManager extends AbstractManager
 
 
 
+    public function getPackages($defaultPage = null, $size = null) {
+        return $this->getObjectsWithPagination('Package', page:$defaultPage, itemsPerPage: $size);
+    }
+
+
+
     public function createPackage()
     {
         $data = (array) $this->request->get('package');

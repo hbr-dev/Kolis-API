@@ -41,4 +41,17 @@ class PackController extends AbstractController
         return $this->manager
                         ->getAllPacks();
     }
+
+
+
+    #[IsGranted("ROLE_ADMIN")]
+    /**
+     * @Route("/pack", name="api_new_pack", methods={"POST"})
+     * @Mapping(object="App\APIModel\Back\Pack", as="pack")
+     */
+    public function createPack()
+    {
+        return $this->manager
+                        ->createPack();
+    }
 }

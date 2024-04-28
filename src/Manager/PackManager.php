@@ -81,20 +81,6 @@ class PackManager extends AbstractManager
 
 
 
-    public function createPack()
-    {
-        $data = (array) $this->request->get('pack');
-
-        $pack = $this->insertObject($data, Pack::class);
-
-        return ['data' => [
-                'messages' => 'create_success',
-                'object' => $pack->getCode()
-        ]];
-    }
-
-
-
     public function getPack($array = false)
     {
         if ($array) {

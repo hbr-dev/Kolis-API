@@ -2,15 +2,10 @@
 
 namespace App\Controller\Mobile;
 
-use App\Entity\Pack;
 use App\Manager\PackManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use SSH\MyJwtBundle\Annotations\Mapping;
-use Symfony\Component\ExpressionLanguage\Expression;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 #[Route("/mobile")]
 class PackController extends AbstractController

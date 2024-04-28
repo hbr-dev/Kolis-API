@@ -95,6 +95,12 @@ class VehicleManager extends AbstractManager
 
 
 
+    public function getVehicles($defaultPage = null, $size = null) {
+        return $this->getObjectsWithPagination('Vehicle', page:$defaultPage, itemsPerPage: $size);
+    }
+
+
+
     public function getTransporterVehicles()
     {
         $vehicles = [];

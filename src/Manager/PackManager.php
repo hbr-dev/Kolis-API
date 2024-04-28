@@ -118,5 +118,13 @@ class PackManager extends AbstractManager
                 'messages' => 'create_success',
                 'object' => $pack->getCode()
         ]];
-    } 
+    }  
+
+
+
+    public function editPack()
+    {
+        $data = (array) $this->request->get('pack');
+        return $this->updateObject(Pack::class, $this->pack, $data);
+    }
 }

@@ -98,7 +98,7 @@ class TripManager extends AbstractManager
 
         return $this->trip;
     }
-
+    
 
 
     private function getRelatedPackages()

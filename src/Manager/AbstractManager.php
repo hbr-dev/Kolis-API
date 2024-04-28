@@ -17,7 +17,7 @@ class AbstractManager
     private $requestStack;
     private $settings;
     private $em;
-    
+
     protected $request;
 
     const PACKAGE_STATUS_CREATED = "created";
@@ -69,7 +69,7 @@ class AbstractManager
         }
 
         $object = new $class($data);
-        
+
         $this->configureObjectDefaults($object, array_key_exists('code', $data));
 
         $this->em->persist($object);
@@ -188,7 +188,7 @@ class AbstractManager
 
 
     public function getObjectsByOwner(string $entity, $field, $user)
-    {   
+    {
         if (!$user) {
             throw new \Exception('User not authenticated');
         }
@@ -208,6 +208,38 @@ class AbstractManager
         $objects = $repository->findBy($criteria, $orderBy, $limit);
 
         return $objects;
+    }
+
+
+
+    public function getObjectsWithPagination(string $entity, int $page = 1, int $itemsPerPage = 10): array
+    {
+        $conn = $this->em->getConnection();
+
+        $metadata = $this->em->getClassMetadata('App\Entity\\' . $entity);
+        $columns = $metadata->getColumnNames();
+        $columns = array_filter($columns, function ($column) {
+            return $column !== 'password';
+        });
+
+        $selectColumns = implode(', ', $columns);
+
+        $sql = "SELECT $selectColumns FROM " . $metadata->getTableName() . " LIMIT :limit OFFSET :offset";
+        $stmt = $conn->executeQuery($sql, ['limit' => $itemsPerPage, 'offset' => ($page - 1) * $itemsPerPage]);
+
+        $results = $stmt->fetchAllAssociative();
+
+        $countSql = "SELECT COUNT(*) as total FROM " . $metadata->getTableName();
+        $countStmt = $conn->executeQuery($countSql);
+        $total = $countStmt->fetchOne();
+
+        return [
+            'data' => $results,
+            'meta' => [
+                'total' => $total,
+                'pages' => ceil($total / $itemsPerPage)
+            ]
+        ];
     }
 
 

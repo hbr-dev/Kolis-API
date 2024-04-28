@@ -151,6 +151,12 @@ class SubscriptionManager extends AbstractManager
 
 
 
+    public function getSubscriptions($defaultPage = null, $size = null) {
+        return $this->getObjectsWithPagination('Subscription', page:$defaultPage, itemsPerPage: $size);
+    }
+
+
+
     public function createSubscription()
     {
         $subscriptions = $this->getTransporterSubscriptions(returnResponse: false);

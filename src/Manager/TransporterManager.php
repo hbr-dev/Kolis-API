@@ -88,12 +88,6 @@ class TransporterManager extends AbstractManager
 
 
 
-    public function getTransporters($defaultPage = null, $size = null) {
-        return $this->getObjectsWithPagination('Transporter', page:$defaultPage, itemsPerPage: $size);
-    }
-
-
-
     public function createTransporter()
     {
         // the password hashed from the frontend

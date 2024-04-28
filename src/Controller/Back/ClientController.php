@@ -41,5 +41,15 @@ class ClientController extends AbstractController
     {
         return $this->manager
                         ->getClients($defaultPage, $size);
+    }    
+    
+
+    
+    #[IsGranted("ROLE_ADMIN")]
+    #[Route("/client/{code}/active/{status}", name: "api_admin_patch_active_status", methods: ["PATCH"])]
+    public function updateActiveStatus($code, bool $status) {
+        return $this->manager
+                        ->init(["code" => $code])
+                        ->bulkUpdateStatuses('active', $status);
     }
 }

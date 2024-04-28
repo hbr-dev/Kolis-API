@@ -212,6 +212,38 @@ class AbstractManager
 
 
 
+    public function getObjectsWithPagination(string $entity, int $page = 1, int $itemsPerPage = 10): array
+    {
+        $conn = $this->em->getConnection();
+
+        $metadata = $this->em->getClassMetadata('App\Entity\\' . $entity);
+        $columns = $metadata->getColumnNames();
+        $columns = array_filter($columns, function ($column) {
+            return $column !== 'password';
+        });
+
+        $selectColumns = implode(', ', $columns);
+
+        $sql = "SELECT $selectColumns FROM " . $metadata->getTableName() . " LIMIT :limit OFFSET :offset";
+        $stmt = $conn->executeQuery($sql, ['limit' => $itemsPerPage, 'offset' => ($page - 1) * $itemsPerPage]);
+
+        $results = $stmt->fetchAllAssociative();
+
+        $countSql = "SELECT COUNT(*) as total FROM " . $metadata->getTableName();
+        $countStmt = $conn->executeQuery($countSql);
+        $total = $countStmt->fetchOne();
+
+        return [
+            'data' => $results,
+            'meta' => [
+                'total' => $total,
+                'pages' => ceil($total / $itemsPerPage)
+            ]
+        ];
+    }
+
+
+
     private function validateUnicity($class, $field, $options, $objectCompare = null)
     {
         $qb = $this->em->createQueryBuilder();

@@ -94,7 +94,6 @@ class PackManager extends AbstractManager
 
     public function getAllPacks()
     {
-        
         $packs = [];
         $criteria = [];
         

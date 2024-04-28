@@ -88,6 +88,12 @@ class ClientManager extends AbstractManager
 
 
 
+    public function getClients($defaultPage = null, $size = null) {
+        return $this->getObjectsWithPagination('Client', page:$defaultPage, itemsPerPage: $size);
+    }
+
+
+
     public function createClient() 
     {
         // the password hashed from the frontend

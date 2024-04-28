@@ -54,4 +54,18 @@ class PackController extends AbstractController
         return $this->manager
                         ->createPack();
     }
+
+
+
+    #[IsGranted("ROLE_ADMIN")]
+    /**
+     * @Route("/pack/{code}", name="api_update_pack", methods={"PUT"})
+     * @Mapping(object="App\APIModel\Back\Pack", as="pack")
+     */
+    public function updatePack($code)
+    {
+        return $this->manager
+                        ->init(['code' => $code])
+                        ->editPack();
+    }
 }

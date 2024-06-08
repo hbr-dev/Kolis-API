@@ -55,6 +55,22 @@ class PackageController extends AbstractController
 
 
 
+    #[IsGranted('ROLE_TRANSPORTER')]
+    #[Route("/trips", name: "api_get_my_packages", methods: ["GET"])]
+    public function getClientPackages() 
+    {
+        return $this->manager
+                        ->init([
+                            'transporterCode'=>$this->getUser()->getCode(),
+                            'senderCode' => $this->getUser()->getCode(),
+                            'receiverCode' => $this->getUser()->getCode()
+                        
+                        ])
+                        ->getClientPackages();
+    }
+
+
+
     #[IsGranted("ROLE_CLIENT")]
     #[Route("/package/{code}", name: "api_delete_package", methods: ["DELETE"])]
     public function deletePackage($code, Package $package, AuthorizationCheckerInterface $authorizationChecker)

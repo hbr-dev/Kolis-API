@@ -125,6 +125,29 @@ class PackageManager extends AbstractManager
 
 
 
+    public function getClientPackages()
+    {
+        $sentPackages = [];
+        $receivedPackages = [];
+        $senderPackagesAsObjects = $this->getObjectsByOwner("Package", "sender", $this->sender);
+        $receiverPackagesAsObjects = $this->getObjectsByOwner("Package", "receiver", $this->receiver);
+
+        foreach ($senderPackagesAsObjects as $object) {
+            $sentPackages[$object->getId()] = $object->toArray();
+        }
+
+        foreach ($receiverPackagesAsObjects as $object) {
+            $receivedPackages[$object->getId()] = $object->toArray();
+        }
+
+        return ['data' => [
+            "sentPackages" => $sentPackages,
+            "receivedPackages" => $receivedPackages
+        ]];
+    }
+
+
+
     public function getCode()
     {
         return $this->code;

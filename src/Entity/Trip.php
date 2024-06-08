@@ -26,6 +26,18 @@ class Trip extends AbstractEntity
     #[ORM\Column(length: 300)]
     private ?string $deliveryLocation = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $pickUPLat = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $pickUPLong = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $deliveryLat = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $deliveryLong = null;
+
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
     
@@ -144,6 +156,54 @@ class Trip extends AbstractEntity
     public function setTransporter(?Transporter $transporter): static
     {
         $this->transporter = $transporter;
+
+        return $this;
+    }
+
+    public function getPickUPLat(): ?float
+    {
+        return $this->pickUPLat;
+    }
+
+    public function setPickUPLat(?float $pickUPLat): static
+    {
+        $this->pickUPLat = $pickUPLat;
+
+        return $this;
+    }
+
+    public function getPickUPLong(): ?float
+    {
+        return $this->pickUPLong;
+    }
+
+    public function setPickUPLong(?float $pickUPLong): static
+    {
+        $this->pickUPLong = $pickUPLong;
+
+        return $this;
+    }
+
+    public function getDeliveryLat(): ?float
+    {
+        return $this->deliveryLat;
+    }
+
+    public function setDeliveryLat(?float $deliveryLat): static
+    {
+        $this->deliveryLat = $deliveryLat;
+
+        return $this;
+    }
+
+    public function getDeliveryLong(): ?float
+    {
+        return $this->deliveryLong;
+    }
+
+    public function setDeliveryLong(?float $deliveryLong): static
+    {
+        $this->deliveryLong = $deliveryLong;
 
         return $this;
     }

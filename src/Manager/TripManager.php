@@ -118,6 +118,7 @@ class TripManager extends AbstractManager
 
         foreach ($packagesAsObjects as $object) {
             $packages[$object->getId()] = $object->toArray();
+            $packages["sender"] = $object->getSender()->getFirstName();
         }
 
         return $packages;

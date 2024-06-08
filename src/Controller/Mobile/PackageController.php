@@ -61,7 +61,6 @@ class PackageController extends AbstractController
     {
         return $this->manager
                         ->init([
-                            'transporterCode'=>$this->getUser()->getCode(),
                             'senderCode' => $this->getUser()->getCode(),
                             'receiverCode' => $this->getUser()->getCode()
                         

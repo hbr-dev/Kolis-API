@@ -50,12 +50,19 @@ class SearchController extends AbstractController
                     $query->andWhere("$column LIKE :value")->setParameter('value', "%$value%");
                     break;
                 case 'date':
-                    // try {
-                    //     $dateObject = new \DateTime($value);
-                    // } catch (Exception $e) {
-                    //     throw new BadRequestHttpException('Invalid date format');
-                    // }
-                    $query->andWhere("$column = :value")->setParameter('value', $value);
+                    try {
+                        $dateObject = new \DateTime($value);
+                        $year = $dateObject->format('Y');
+                        $month = $dateObject->format('m');
+                        $day = $dateObject->format('d');
+    
+                        $query->andWhere("TO_CHAR($column, 'YYYY') LIKE :year AND TO_CHAR($column, 'MM') LIKE :month AND TO_CHAR($column, 'DD') LIKE :day")
+                            ->setParameter('year', $year . '%')
+                            ->setParameter('month', $month . '%')
+                            ->setParameter('day', $day . '%');
+                    } catch (\Exception $e) {
+                        throw new BadRequestHttpException('Invalid date format');
+                    }
                     break;
             }
         }

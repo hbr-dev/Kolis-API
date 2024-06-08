@@ -117,8 +117,18 @@ class TripManager extends AbstractManager
         $packagesAsObjects = $this->getObjectsByCriteria("Package", $criteria, orderBy:$orderBy);
 
         foreach ($packagesAsObjects as $object) {
-            $object->toArray()["sender"] = $object->getSender()->getFirstName() . " " . $object->getSender()->getLastName();
-            $packages[$object->getId()] = $object->toArray();
+            $package = $object->toArray();
+            $package["sender"] = [
+                "firstName" => $object->getSender()->getFirstName(),
+                "lastName" => $object->getSender()->getLastName(),
+                "profile_img" => $object->getSender()->getProfileImg()
+            ];
+            $package["receiver"] = [
+                "firstName" => $object->getReceiver()->getFirstName(),
+                "lastName" => $object->getReceiver()->getLastName(),
+                "profile_img" => $object->getReceiver()->getProfileImg()
+            ];
+            $packages[$object->getId()] = $package;
         }
 
         return $packages;

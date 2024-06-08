@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\DBAL\Connection;
 use Exception;
 use SSH\MyJwtBundle\Manager\ExceptionManager;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 #[Route("/core")]
@@ -32,6 +33,9 @@ class SearchController extends AbstractController
         $filters = $request->query->get('filters', []);
 
         // Perform access control for tables here
+        if ($table === 'new_api_user' || $table === 'token_api_user') {
+            throw new AccessDeniedException('Access to this table is not allowed.');
+        }
 
         $query = $this->connection->createQueryBuilder();
 
@@ -41,6 +45,10 @@ class SearchController extends AbstractController
             $column = $filter['column'];
             $value = $filter['value'];
             $type = $filter['type'];
+
+            if ($column === 'code' || $column === 'phone_number' || $column === 'email' || $column === 'password') {
+                throw new AccessDeniedException('Search not allowed for sensitive data.');
+            }
 
             switch ($type) {
                 case 'number':

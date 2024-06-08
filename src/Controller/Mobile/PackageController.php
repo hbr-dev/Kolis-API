@@ -55,7 +55,7 @@ class PackageController extends AbstractController
 
 
 
-    #[IsGranted('ROLE_TRANSPORTER')]
+    #[IsGranted('ROLE_CLIENT')]
     #[Route("/trips", name: "api_get_my_packages", methods: ["GET"])]
     public function getClientPackages() 
     {

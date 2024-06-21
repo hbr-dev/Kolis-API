@@ -106,13 +106,11 @@ class TripController extends AbstractController
 
 
     #[IsGranted('ROLE_TRANSPORTER')]
-    #[Route("/trip/{code}/{status}", name: "api_patch_trip_status", methods: ["PATCH"])]
-    public function updateTripStatus($code, string $status, Trip $trip, AuthorizationCheckerInterface $authorizationChecker) 
+    /**
+     * @Route("/trip/{code}/{status}", name="api_patch_trip_status", methods={"PATCH"})
+     */
+    public function updateTripStatus($code, string $status) 
     {
-        if (!$authorizationChecker->isGranted('VIEW', $trip)) {
-            throw new AccessDeniedHttpException('Access denied.');
-        }
-
         return $this->manager
                         ->init(['code' => $code])
                         ->updateTripStatus($status);

@@ -23,6 +23,14 @@ class Trip extends CommonParameterBag
     )]
     public $deliveryLocation;
 
+    public $pickUPLat = null;
+
+    public $pickUPLong = null;
+    
+    public $deliveryLat = null;
+    
+    public $deliveryLong = null;
+
     #[Assert\NotBlank]
     public $date;
 

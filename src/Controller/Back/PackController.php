@@ -34,12 +34,12 @@ class PackController extends AbstractController
 
 
 
-    #[IsGranted("ROLE_ADMIN")]
-    #[Route("/packs", name: "api_admin_get_all_packs", methods: ["GET"])]
-    public function getAllPacks()
+    //#[IsGranted("ROLE_ADMIN")]
+    #[Route("/packs/{defaultPage}/{size}", name: "api_admin_get_all_packs", methods: ["GET"])]
+    public function getAllPacks(int $defaultPage, int $size)
     {
         return $this->manager
-                        ->getAllPacks();
+                        ->getAllPacks($defaultPage, $size);
     }
 
 

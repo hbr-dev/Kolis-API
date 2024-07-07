@@ -23,10 +23,10 @@ class TripController extends AbstractController
 
 
     #[IsGranted("ROLE_ADMIN")]
-    #[Route("/trips", name: "api_admin_get_trips", methods: ["GET"])]
-    public function getTrips()
+    #[Route("/trips/{defaultPage}/{size}", name: "api_admin_get_trips", methods: ["GET"])]
+    public function getTrips(int $defaultPage, int $size)
     {
         return $this->manager
-                        ->getTrips();
+                        ->getTrips($defaultPage, $size);
     }
 }

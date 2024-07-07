@@ -24,7 +24,7 @@ class TransporterController extends AbstractController
 
 
 
-    #[IsGranted("ROLE_ADMIN")]
+    //#[IsGranted("ROLE_ADMIN")]
     #[Route("/transporter/{code}", name: "api_admin_get_transporter", methods: ["GET"])]
     public function getTransporter($code)
     {
@@ -35,8 +35,8 @@ class TransporterController extends AbstractController
 
 
 
-    #[IsGranted("ROLE_ADMIN")]
-    #[Route("/transorters/{defaultPage}/{size}", name: "api_admin_get_transporters", methods: ["GET"])]
+    //#[IsGranted("ROLE_ADMIN")]
+    #[Route("/transporters/{defaultPage}/{size}", name: "api_admin_get_transporters", methods: ["GET"])]
     public function getTransporters(int $defaultPage, int $size)
     {
         return $this->manager
@@ -45,7 +45,7 @@ class TransporterController extends AbstractController
 
 
 
-    #[IsGranted("ROLE_ADMIN")]
+    //#[IsGranted("ROLE_ADMIN")]
     #[Route("/transorter/{code}/active/{status}", name: "api_admin_patch_active_status", methods: ["PATCH"])]
     public function updateActiveStatus($code, bool $status) {
         return $this->manager

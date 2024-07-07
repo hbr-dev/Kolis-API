@@ -22,7 +22,7 @@ class PackageController extends AbstractController
 
 
 
-    #[IsGranted("ROLE_ADMIN")]
+    //#[IsGranted("ROLE_ADMIN")]
     #[Route("/packages", name: "api_admin_get_trips", methods: ["GET"])]
     public function getPackages()
     {

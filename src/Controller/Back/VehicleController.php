@@ -22,7 +22,7 @@ class VehicleController extends AbstractController
 
 
 
-    #[IsGranted("ROLE_ADMIN")]
+    //#[IsGranted("ROLE_ADMIN")]
     #[Route("/vehicles/{defaultPage}/{size}", name: "api_admin_get_vehicles", methods: ["GET"])]
     public function getVehicles(int $defaultPage, int $size)
     {

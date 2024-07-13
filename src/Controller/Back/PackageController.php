@@ -22,7 +22,7 @@ class PackageController extends AbstractController
 
 
 
-    #[IsGranted("ROLE_ADMIN")]
+    //#[IsGranted("ROLE_ADMIN")]
     #[Route("/packages/{defaultPage}/{size}", name: "api_admin_get_packages", methods: ["GET"])]
     public function getPackages(int $defaultPage, int $size)
     {

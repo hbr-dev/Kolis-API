@@ -24,7 +24,7 @@ class ClientController extends AbstractController
 
 
 
-    #[IsGranted("ROLE_ADMIN")]
+    //#[IsGranted("ROLE_ADMIN")]
     #[Route("/client/{code}", name: "api_admin_get_client", methods: ["GET"])]
     public function getClient($code)
     {
@@ -35,7 +35,7 @@ class ClientController extends AbstractController
 
 
 
-    // #[IsGranted("ROLE_ADMIN")]
+    //#[IsGranted("ROLE_ADMIN")]
     #[Route("/clients/{defaultPage}/{size}", name: "api_admin_get_clients", methods: ["GET"])]
     public function getClients(int $defaultPage, int $size)
     {
@@ -45,7 +45,7 @@ class ClientController extends AbstractController
     
 
     
-    #[IsGranted("ROLE_ADMIN")]
+    //#[IsGranted("ROLE_ADMIN")]
     #[Route("/client/{code}/active/{status}", name: "api_admin_patch_active_status", methods: ["PATCH"])]
     public function updateActiveStatus($code, bool $status) {
         return $this->manager

@@ -46,7 +46,7 @@ class SearchController extends AbstractController
             $value = $filter['value'];
             $type = $filter['type'];
 
-            if ($column === 'code' || $column === 'phone_number' || $column === 'email' || $column === 'password') {
+            if ($column === 'code' || $column === 'password') {
                 throw new AccessDeniedException('Search not allowed for sensitive data.');
             }
 

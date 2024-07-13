@@ -23,10 +23,10 @@ class PackageController extends AbstractController
 
 
     #[IsGranted("ROLE_ADMIN")]
-    #[Route("/packages", name: "api_admin_get_trips", methods: ["GET"])]
-    public function getPackages()
+    #[Route("/packages/{defaultPage}/{size}", name: "api_admin_get_packages", methods: ["GET"])]
+    public function getPackages(int $defaultPage, int $size)
     {
         return $this->manager
-                        ->getPackages();
+                        ->getPackages($defaultPage, $size);
     }
 }

@@ -35,7 +35,7 @@ class ClientController extends AbstractController
 
 
 
-    #[IsGranted("ROLE_ADMIN")]
+    // #[IsGranted("ROLE_ADMIN")]
     #[Route("/clients/{defaultPage}/{size}", name: "api_admin_get_clients", methods: ["GET"])]
     public function getClients(int $defaultPage, int $size)
     {

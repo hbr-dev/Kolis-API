@@ -217,7 +217,7 @@ class PackageManager extends AbstractManager
     public function createPackage()
     {
         $data = (array) $this->request->get('package');
-        $data['status'] = self::PACKAGE_STATUS_CREATED;
+        $data['status'] = self::PACKAGE_STATUS_OPEN;
         $data['sender'] = $this->sender;
         $data['receiver'] = $this->receiver;
 
@@ -235,7 +235,7 @@ class PackageManager extends AbstractManager
     {
         $data = (array) $this->request->get('_package');
 
-        if ($this->package->getStatus() == self::PACKAGE_STATUS_CREATED) {
+        if ($this->package->getStatus() == self::PACKAGE_STATUS_OPEN) {
             return $this->updateObject(Package::class, $this->package, $data);
         } else {
             return [
@@ -249,10 +249,11 @@ class PackageManager extends AbstractManager
     public function updatePackageStatus($status)
     {
         $validStatuses = [
-            'created' => self::PACKAGE_STATUS_CREATED,
+            'open' => self::PACKAGE_STATUS_OPEN,
             'awaiting_for_trip' => self::PACKAGE_STATUS_AWAITING_TRIP,
             'approved' => self::PACKAGE_STATUS_APPROVED,
-            'in_transit' => self::PACKAEG_STATUS_IN_TRANSIT,
+            'in_progress' => self::PACKAGE_STATUS_IN_PROGRESS,
+            'in_transit' => self::PACKAGE_STATUS_IN_TRANSIT,
             'delivered' => self::PACKAGE_STATUS_DELIVERED,
             'damaged' => self::PACKAGE_STATUS_DAMAGED,
             'lost' => self::PACKAGE_STATUS_LOST,
@@ -283,7 +284,7 @@ class PackageManager extends AbstractManager
     {   
         $this->handleShipmentAction($approved, self::PACKAGE_STATUS_APPROVED);
         $this->handleShipmentAction($declined, self::PACKAGE_STATUS_DECLINED, true);
-        $this->handleShipmentAction($cancelled, self::PACKAGE_STATUS_CREATED, true);
+        $this->handleShipmentAction($cancelled, self::PACKAGE_STATUS_OPEN, true);
 
         if (!$approved && !$declined && !$cancelled) {
             $this->handleDefaultCase();

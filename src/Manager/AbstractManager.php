@@ -20,11 +20,17 @@ class AbstractManager
 
     protected $request;
 
-    const PACKAGE_STATUS_CREATED = "created";
+    // The status CREATED updated
+    // to be OPEN, Implemented changes 
+    // in response to CEO's requirements.
+    const PACKAGE_STATUS_OPEN = "open";
     const PACKAGE_STATUS_AWAITING_TRIP = "awaiting_for_trip";
     const PACKAGE_STATUS_DECLINED = "declined";
     const PACKAGE_STATUS_APPROVED = "approved";
-    const PACKAEG_STATUS_IN_TRANSIT = "delivery_in_transit";
+    // The status IN_PROGRESS implemented 
+    // in response to CEO's requirements.
+    const PACKAGE_STATUS_IN_PROGRESS = "in_progress";
+    const PACKAGE_STATUS_IN_TRANSIT = "delivery_in_transit";
     const PACKAGE_STATUS_DELIVERED = "delivered";
     const PACKAGE_STATUS_DAMAGED = "damaged";
     const PACKAGE_STATUS_LOST = "lost";

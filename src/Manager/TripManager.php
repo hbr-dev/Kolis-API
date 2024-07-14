@@ -192,7 +192,7 @@ class TripManager extends AbstractManager
                 }
                 else {
                     $qb->andWhere($qb->expr()->like("t.$field", ":$field"))
-                        ->setParameter($field, $value);
+                        ->setParameter($field, '%'.$value.'%');
                 }
             }
         }

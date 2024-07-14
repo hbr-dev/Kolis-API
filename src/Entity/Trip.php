@@ -21,10 +21,7 @@ class Trip extends AbstractEntity
     private ?Uuid $code = null;
 
     #[ORM\Column(length: 300)]
-    private ?string $pickUPLocation = null;
-
-    #[ORM\Column(length: 300)]
-    private ?string $deliveryLocation = null;
+    private ?string $route = null;
 
     #[ORM\Column(nullable: true)]
     private ?float $pickUPLat = null;
@@ -76,26 +73,14 @@ class Trip extends AbstractEntity
         return $this;
     }
 
-    public function getPickUPLocation(): ?string
+    public function getRoute(): ?string
     {
-        return $this->pickUPLocation;
+        return $this->route;
     }
 
-    public function setPickUPLocation(string $pickUPLocation): static
+    public function setRoute(string $route): static
     {
-        $this->pickUPLocation = $pickUPLocation;
-
-        return $this;
-    }
-
-    public function getDeliveryLocation(): ?string
-    {
-        return $this->deliveryLocation;
-    }
-
-    public function setDeliveryLocation(string $deliveryLocation): static
-    {
-        $this->deliveryLocation = $deliveryLocation;
+        $this->route = $route;
 
         return $this;
     }

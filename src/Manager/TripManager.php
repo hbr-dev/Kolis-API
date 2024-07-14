@@ -47,12 +47,11 @@ class TripManager extends AbstractManager
         $this->transporterManager = $transporterManager;
         $this->exceptionManager = $exceptionManager;
         $this->em = $em;
-
         parent::__construct($requestStack, $em);
-    }    
-    
+    }
 
-    
+
+
     /**
      * Initializes the Package
      * object, and its parent
@@ -63,23 +62,21 @@ class TripManager extends AbstractManager
     public function init($settings = [])
     {
         parent::setSettings($settings);
-
         if ($this->getCode()) {
             $filters = ['code' => $this->getCode()];
-           
+
             $this->trip = $this->em
-                                    ->getRepository(Trip::class)
-                                    ->findOneBy($filters);
+                ->getRepository(Trip::class)
+                ->findOneBy($filters);
 
             if (empty($this->trip)) {
                 $this->exceptionManager->throwNotFoundException('UNKNOWN_TRIP');
             }
         }
-
         if ($this->getTransporterCode()) {
             $this->transporter = $this->transporterManager
-                                        ->init(['code' => $this->getTransporterCode()])
-                                        ->getTransporter();
+                ->init(['code' => $this->getTransporterCode()])
+                ->getTransporter();
         }
 
         return $this;
@@ -101,20 +98,21 @@ class TripManager extends AbstractManager
 
 
 
-    public function getTrips($defaultPage = null, $size = null) {
-        return $this->getObjectsWithPagination('Trip', page:$defaultPage, itemsPerPage: $size);
+    public function getTrips($defaultPage = null, $size = null)
+    {
+        return $this->getObjectsWithPagination('Trip', page: $defaultPage, itemsPerPage: $size);
     }
-    
+
 
 
     private function getRelatedPackages()
     {
         $packages = [];
         $criteria = ['trip' => $this->trip];
-          
+
         $orderBy = ['createdAt' => 'DESC'];
-        
-        $packagesAsObjects = $this->getObjectsByCriteria("Package", $criteria, orderBy:$orderBy);
+
+        $packagesAsObjects = $this->getObjectsByCriteria("Package", $criteria, orderBy: $orderBy);
 
         foreach ($packagesAsObjects as $object) {
             $package = $object->toArray();
@@ -161,19 +159,46 @@ class TripManager extends AbstractManager
     public function getAvailableTrips()
     {
         $trips = [];
-        
+    
+        $criteria = [];
+        $queryParams = $this->request->query->all();
+    
+        foreach ($queryParams as $key => $value) {
+            $criteria[$key] = $value;
+        }
+    
         $today = new DateTime('now');
-        $todayCET = $today->setTimezone(new DateTimeZone('CET'));  // Convert to UTC (adjust if needed)
-
+        $todayCET = $today->setTimezone(new DateTimeZone('CET'));  // Convert to UTC if needed
+    
         $repository = $this->em->getRepository(Trip::class);
-
+    
         $qb = $repository->createQueryBuilder('t');
-
+    
+        $qb->join('t.transporter', 'tr');
+        
         $qb->where($qb->expr()->gt('t.date', ':todayCET'))
-           ->setParameter('todayCET', $todayCET);
-
+            ->setParameter('todayCET', $todayCET);
+    
+        // Apply additional criteria if provided
+        if (!empty($criteria)) {
+            foreach ($criteria as $field => $value) {
+                if ($field === 'firstName' || $field === 'lastName' || $field === 'address' || $field === 'phoneNumber' || $field === 'email') {
+                    $qb->andWhere($qb->expr()->like("tr.$field", ":$field"))
+                        ->setParameter($field, '%'.$value.'%');
+                } 
+                else if ($field === 'date') {
+                    $qb->andWhere($qb->expr()->eq("t.$field", ":$field")) 
+                       ->setParameter($field, new \DateTime($value));
+                }
+                else {
+                    $qb->andWhere($qb->expr()->like("t.$field", ":$field"))
+                        ->setParameter($field, $value);
+                }
+            }
+        }
+    
         $tripsAsObjects = $qb->getQuery()->getResult();
-
+    
         foreach ($tripsAsObjects as $object) {
             $trips[$object->getId()] = $object->toArray();
             $transporterInfo = [
@@ -183,44 +208,128 @@ class TripManager extends AbstractManager
                 "PhoneNumber" => $object->getTransporter()->getPhoneNumber()
             ];
             if ($object->getTransporter()->getEmail()) {
-                $transporterInfo["email"] = $object->getTransporter()->getEmail();
+                $transporterInfo["Email"] = $object->getTransporter()->getEmail();
             }
             $trips[$object->getId()]['transporter'] = $transporterInfo;
         }
-
+    
         return ['data' => $trips];
-    }
+    } 
 
 
 
-    public function getCode() 
+    // public function getAvailableTrips()
+    // {
+    //     $trips = [];
+
+    //     $criteria = [];
+    //     $queryParams = $this->request->query->all();
+
+    //     foreach ($queryParams as $key => $value) {
+    //         $criteria[$key] = $value;
+    //     }
+
+    //     $today = new DateTime('now');
+    //     $todayCET = $today->setTimezone(new DateTimeZone('CET'));  // Convert to UTC (adjust if needed)
+
+    //     $repository = $this->em->getRepository(Trip::class);
+
+    //     $qb = $repository->createQueryBuilder('t');
+
+    //     $qb->where($qb->expr()->gt('t.date', ':todayCET'))
+    //         ->setParameter('todayCET', $todayCET);
+
+    //     // Apply additional criteria if provided
+    //     if (!empty($criteria)) {
+    //         foreach ($criteria as $field => $value) {
+    //             $qb->andWhere($qb->expr()->like("t.$field", ":$field"))
+    //                 ->setParameter($field, $value);
+    //         }
+    //     }
+
+    //     $tripsAsObjects = $qb->getQuery()->getResult();
+
+    //     foreach ($tripsAsObjects as $object) {
+    //         $trips[$object->getId()] = $object->toArray();
+    //         $transporterInfo = [
+    //             "FirstName" => $object->getTransporter()->getFirstName(),
+    //             "LastName" => $object->getTransporter()->getLastName(),
+    //             "Address" => $object->getTransporter()->getAddress(),
+    //             "PhoneNumber" => $object->getTransporter()->getPhoneNumber()
+    //         ];
+    //         if ($object->getTransporter()->getEmail()) {
+    //             $transporterInfo["email"] = $object->getTransporter()->getEmail();
+    //         }
+    //         $trips[$object->getId()]['transporter'] = $transporterInfo;
+    //     }
+
+    //     return ['data' => $trips];
+    // }
+
+
+
+
+    // public function getAvailableTrips()
+    // {
+    //     $trips = [];
+
+    //     $today = new DateTime('now');
+    //     $todayCET = $today->setTimezone(new DateTimeZone('CET'));  // Convert to UTC (adjust if needed)
+
+    //     $repository = $this->em->getRepository(Trip::class);
+
+    //     $qb = $repository->createQueryBuilder('t');
+
+    //     $qb->where($qb->expr()->gt('t.date', ':todayCET'))
+    //        ->setParameter('todayCET', $todayCET);
+
+    //     $tripsAsObjects = $qb->getQuery()->getResult();
+
+    //     foreach ($tripsAsObjects as $object) {
+    //         $trips[$object->getId()] = $object->toArray();
+    //         $transporterInfo = [
+    //             "FirstName" => $object->getTransporter()->getFirstName(),
+    //             "LastName" => $object->getTransporter()->getLastName(),
+    //             "Address" => $object->getTransporter()->getAddress(),
+    //             "PhoneNumber" => $object->getTransporter()->getPhoneNumber()
+    //         ];
+    //         if ($object->getTransporter()->getEmail()) {
+    //             $transporterInfo["email"] = $object->getTransporter()->getEmail();
+    //         }
+    //         $trips[$object->getId()]['transporter'] = $transporterInfo;
+    //     }
+
+    //     return ['data' => $trips];
+    // }
+
+
+
+    public function getCode()
     {
         return $this->code;
     }
 
 
 
-    public function setCode($code) 
+    public function setCode($code)
     {
         $this->code = $code;
         return $this;
-
     }
 
 
 
-    public function getTransporterCode() 
+    public function getTransporterCode()
     {
         return $this->transporterCode;
     }
 
 
 
-    public function setTransporterCode($transporterCode) 
+    public function setTransporterCode($transporterCode)
     {
         $this->transporterCode = $transporterCode;
         return $this;
-
     }
 
 

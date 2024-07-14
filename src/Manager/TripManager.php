@@ -168,6 +168,16 @@ class TripManager extends AbstractManager
 
         foreach ($tripsAsObjects as $object) {
             $trips[$object->getId()] = $object->toArray();
+            $transporterInfo = [
+                "FirstName" => $object->getTransporter()->getFirstName(),
+                "LastName" => $object->getTransporter()->getLastName(),
+                "Address" => $object->getTransporter()->getAddress(),
+                "PhoneNumber" => $object->getTransporter()->getPhoneNumber()
+            ];
+            if ($object->getTransporter()->getEmail()) {
+                $transporterInfo["email"] = $object->getTransporter()->getEmail();
+            }
+            $trips[$object->getId()]['transporter'] = $transporterInfo;
         }
 
         return ['data' => $trips];

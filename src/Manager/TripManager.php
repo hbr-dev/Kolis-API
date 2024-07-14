@@ -121,13 +121,21 @@ class TripManager extends AbstractManager
             $package["sender"] = [
                 "firstName" => $object->getSender()->getFirstName(),
                 "lastName" => $object->getSender()->getLastName(),
+                "phoneNumber" => $object->getSender()->getPhoneNumber(),
                 "profile_img" => $object->getSender()->getProfileImg()
             ];
+            if ($object->getSender()->getEmail()) {
+                $package["sender"]["email"] = $object->getSender()->getEmail();
+            }
             $package["receiver"] = [
                 "firstName" => $object->getReceiver()->getFirstName(),
                 "lastName" => $object->getReceiver()->getLastName(),
+                "phoneNumber" => $object->getReceiver()->getPhoneNumber(),
                 "profile_img" => $object->getReceiver()->getProfileImg()
             ];
+            if ($object->getReceiver()->getEmail()) {
+                $package["receiver"]["email"] = $object->getReceiver()->getEmail();
+            }
             $packages[$object->getId()] = $package;
         }
 

@@ -211,6 +211,11 @@ class SubscriptionManager extends AbstractManager
     
             foreach ($subscriptionsAsObjects as $object) {
                 $subscriptions[$object->getId()] = $object->toArray();
+                $subscriptions[$object->getId()]['pack'] = [
+                    "price" => $object->getPack()->getPrice(),
+                    "description" => $object->getPack()->getDescription(),
+                    "free trial period" => $object->getPack()->getFreeTrialPeriod() . " Days",
+                ];
             }
     
             return ['data' => $subscriptions];

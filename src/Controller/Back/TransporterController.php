@@ -46,7 +46,7 @@ class TransporterController extends AbstractController
 
 
     //#[IsGranted("ROLE_ADMIN")]
-    #[Route("/transorter/{code}/active/{status}", name: "api_admin_patch_active_status", methods: ["PATCH"])]
+    #[Route("/transorter/{code}/active/{status}", name: "api_admin_patch_tansporter_active_status", methods: ["PATCH"])]
     public function updateActiveStatus($code, bool $status) {
         return $this->manager
                         ->init(["code" => $code])

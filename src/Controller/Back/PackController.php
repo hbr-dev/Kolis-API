@@ -23,7 +23,7 @@ class PackController extends AbstractController
 
 
 
-    #[IsGranted("ROLE_ADMIN")]
+    //#[IsGranted("ROLE_ADMIN")]
     #[Route("/pack/{code}", name: "api_get_pack", methods: ["GET"])]
     public function getPack($code)
     {
@@ -44,7 +44,7 @@ class PackController extends AbstractController
 
 
 
-    #[IsGranted("ROLE_ADMIN")]
+    //#[IsGranted("ROLE_ADMIN")]
     /**
      * @Route("/pack", name="api_new_pack", methods={"POST"})
      * @Mapping(object="App\APIModel\Back\Pack", as="pack")
@@ -57,7 +57,7 @@ class PackController extends AbstractController
 
 
 
-    #[IsGranted("ROLE_ADMIN")]
+    //#[IsGranted("ROLE_ADMIN")]
     /**
      * @Route("/pack/{code}", name="api_update_pack", methods={"PUT"})
      * @Mapping(object="App\APIModel\Back\Pack", as="pack")

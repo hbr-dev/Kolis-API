@@ -29,15 +29,14 @@ class PackageController extends AbstractController
 
     #[IsGranted("ROLE_CLIENT")]
     /**
-     * @Route("/package/{receiverCode}", name="api_new_package", methods={"POST"})
+     * @Route("/package", name="api_new_package", methods={"POST"})
      * @Mapping(object="App\APIModel\Mobile\Package", as="package")
      */
-    public function createPackage($receiverCode)
+    public function createPackage()
     {
         return $this->manager
                         ->init([
-                            'senderCode' => $this->getUser()->getCode(),
-                            'receiverCode' => $receiverCode
+                            'senderCode' => $this->getUser()->getCode()
                         ])
                         ->createPackage();
     }
@@ -61,9 +60,7 @@ class PackageController extends AbstractController
     {
         return $this->manager
                         ->init([
-                            'senderCode' => $this->getUser()->getCode(),
-                            'receiverCode' => $this->getUser()->getCode()
-                        
+                            'senderCode' => $this->getUser()->getCode()
                         ])
                         ->getClientPackages();
     }

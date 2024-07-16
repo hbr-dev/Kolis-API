@@ -117,7 +117,13 @@ class PackageManager extends AbstractManager
     public function getPackage($array = false)
     {
         if ($array) {
-            return ['data' => $this->package->toArray()];
+            $data = $this->package->toArray();
+            $data['sender'] = [
+                "senderFirstName" => $this->package->getSender()->getFirstName(),
+                "senderLastName" => $this->package->getSender()->getLastName(),
+                "senderPhoneNumber" => $this->package->getSender()->getPhoneNumber()
+            ];
+            return ['data' => $data];
         }
 
         return $this->package;
@@ -128,21 +134,14 @@ class PackageManager extends AbstractManager
     public function getClientPackages()
     {
         $sentPackages = [];
-        $receivedPackages = [];
         $senderPackagesAsObjects = $this->getObjectsByOwner("Package", "sender", $this->sender);
-        $receiverPackagesAsObjects = $this->getObjectsByOwner("Package", "receiver", $this->receiver);
 
         foreach ($senderPackagesAsObjects as $object) {
             $sentPackages[$object->getId()] = $object->toArray();
         }
 
-        foreach ($receiverPackagesAsObjects as $object) {
-            $receivedPackages[$object->getId()] = $object->toArray();
-        }
-
         return ['data' => [
             "sentPackages" => $sentPackages,
-            "receivedPackages" => $receivedPackages
         ]];
     }
 
@@ -219,7 +218,6 @@ class PackageManager extends AbstractManager
         $data = (array) $this->request->get('package');
         $data['status'] = self::PACKAGE_STATUS_OPEN;
         $data['sender'] = $this->sender;
-        $data['receiver'] = $this->receiver;
 
         $package = $this->insertObject($data, Package::class);
 

@@ -50,12 +50,20 @@ class Package extends AbstractEntity
     #[ORM\JoinColumn(nullable: false)]
     private ?Client $sender = null;
 
-    #[ORM\ManyToOne(inversedBy: 'packagesAsReceiver')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Client $receiver = null;
-
     #[ORM\ManyToOne(inversedBy: 'packages')]
     private ?Trip $trip = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $receiverFirstName = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $receiverLastName = null;
+
+    #[ORM\Column(length: 12)]
+    private ?string $receiverPhoneNumber = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $receiverEmail = null;
 
     public function __construct($data = [])
     {
@@ -189,18 +197,6 @@ class Package extends AbstractEntity
         return $this;
     }
 
-    public function getReceiver(): ?Client
-    {
-        return $this->receiver;
-    }
-
-    public function setReceiver(?Client $receiver): static
-    {
-        $this->receiver = $receiver;
-
-        return $this;
-    }
-
     public function getTrip(): ?Trip
     {
         return $this->trip;
@@ -209,6 +205,54 @@ class Package extends AbstractEntity
     public function setTrip(?Trip $trip): static
     {
         $this->trip = $trip;
+
+        return $this;
+    }
+
+    public function getReceiverFirstName(): ?string
+    {
+        return $this->receiverFirstName;
+    }
+
+    public function setReceiverFirstName(string $receiverFirstName): static
+    {
+        $this->receiverFirstName = $receiverFirstName;
+
+        return $this;
+    }
+
+    public function getReceiverLastName(): ?string
+    {
+        return $this->receiverLastName;
+    }
+
+    public function setReceiverLastName(string $receiverLastName): static
+    {
+        $this->receiverLastName = $receiverLastName;
+
+        return $this;
+    }
+
+    public function getReceiverPhoneNumber(): ?string
+    {
+        return $this->receiverPhoneNumber;
+    }
+
+    public function setReceiverPhoneNumber(string $receiverPhoneNumber): static
+    {
+        $this->receiverPhoneNumber = $receiverPhoneNumber;
+
+        return $this;
+    }
+
+    public function getReceiverEmail(): ?string
+    {
+        return $this->receiverEmail;
+    }
+
+    public function setReceiverEmail(?string $receiverEmail): static
+    {
+        $this->receiverEmail = $receiverEmail;
 
         return $this;
     }

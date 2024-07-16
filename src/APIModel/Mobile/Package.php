@@ -36,4 +36,33 @@ class Package extends CommonParameterBag
     )]
     public $transportationCharge;
 
+    #[Assert\NotBlank]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Z\s]{2,}$/',
+        message: 'Invalid receiver first name'
+    )]
+    public $receiverFirstName;
+
+
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Z\s]{2,}$/',
+        message: 'Invalid receiver last name'
+    )]
+    #[Assert\NotBlank]
+    public $receiverLastName;
+
+    #[Assert\NotBlank]
+    #[Assert\Regex(
+        pattern: '/^([2459]\d{7}|[67]\d{8})$/',
+        message: 'Invalid receiver phone number. Please enter 
+                  a valid Tunisia or France mobile number.'
+    )]
+    public $receiverPhoneNumber;
+
+    #[Assert\Regex(
+        pattern: "/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/",
+        message: "Invalid receiver email address"
+    )]
+    public $receiverEmail;
+
 }
